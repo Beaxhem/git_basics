@@ -1,3 +1,4 @@
+import os
 import sys
 import math
 
@@ -16,6 +17,8 @@ class QuadraticEquationSolver:
         return (x1, x2)
 
     def solve(self, a, b, c):
+        if a == 0:
+            print("Error. a cannot be zero")
         print("Equation is:", self.equation_str(a, b, c))
 
         discriminant = self._discriminant(a, b, c)
@@ -39,7 +42,23 @@ class QuadraticEquationSolver:
 
 
 def input_from_file(filename: str):
-    pass
+    if not os.path.isfile(filename):
+        print(f"file {filename} does not exist")
+        exit(1)
+
+    with open(filename) as f:
+        line = f.readline()
+        input = line.split()
+
+        if len(input) == 3:
+            try:
+                return [float(x) for x in input]
+            except ValueError:
+                print(f"Error. Expected a valid real number")  
+            return input
+
+        print("invalid file format")
+        exit(1)
 
 def get_value(name: str):
     while True:
